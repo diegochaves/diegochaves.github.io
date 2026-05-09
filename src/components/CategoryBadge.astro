@@ -1,0 +1,37 @@
+---
+interface Props {
+  category: 'dev' | 'carreira' | 'curiosidades' | 'pessoal';
+}
+
+const { category } = Astro.props;
+
+const config = {
+  dev: { label: 'Dev', color: '#dbeafe', textColor: '#1d4ed8', darkColor: '#1e3a5f', darkText: '#93c5fd' },
+  carreira: { label: 'Carreira', color: '#dcfce7', textColor: '#15803d', darkColor: '#14532d', darkText: '#86efac' },
+  curiosidades: { label: 'Curiosidades', color: '#fef9c3', textColor: '#a16207', darkColor: '#422006', darkText: '#fde047' },
+  pessoal: { label: 'Pessoal', color: '#fce7f3', textColor: '#be185d', darkColor: '#500724', darkText: '#f9a8d4' },
+};
+
+const { label } = config[category];
+---
+
+<span
+  class:list={[
+    'inline-block text-xs font-medium px-2.5 py-0.5 rounded-full',
+    `badge-${category}`,
+  ]}
+>
+  {label}
+</span>
+
+<style>
+  .badge-dev { background-color: #dbeafe; color: #1d4ed8; }
+  .badge-carreira { background-color: #dcfce7; color: #15803d; }
+  .badge-curiosidades { background-color: #fef9c3; color: #a16207; }
+  .badge-pessoal { background-color: #fce7f3; color: #be185d; }
+
+  :global(.dark) .badge-dev { background-color: #1e3a5f; color: #93c5fd; }
+  :global(.dark) .badge-carreira { background-color: #14532d; color: #86efac; }
+  :global(.dark) .badge-curiosidades { background-color: #422006; color: #fde047; }
+  :global(.dark) .badge-pessoal { background-color: #500724; color: #f9a8d4; }
+</style>

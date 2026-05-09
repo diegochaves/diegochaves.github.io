@@ -1,0 +1,29 @@
+---
+const year = new Date().getFullYear();
+
+const links = [
+  { href: 'https://github.com/diegochaves', label: 'GitHub' },
+  { href: 'https://twitter.com/diegochaves', label: 'Twitter/X' },
+  { href: 'mailto:eu@diegochav.es', label: 'Email' },
+  { href: '/rss.xml', label: 'RSS' },
+];
+---
+
+<footer class="mt-16 py-8 text-sm" style="border-top: 1px solid var(--color-border); color: var(--color-muted)">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <span>© {year} Diego Chaves</span>
+    <div class="flex gap-4">
+      {links.map(({ href, label }) => (
+        <a
+          href={href}
+          class="hover:opacity-75 no-underline transition-opacity"
+          style="color: var(--color-muted)"
+          target={href.startsWith('http') ? '_blank' : undefined}
+          rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        >
+          {label}
+        </a>
+      ))}
+    </div>
+  </div>
+</footer>

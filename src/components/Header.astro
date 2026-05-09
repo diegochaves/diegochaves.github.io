@@ -1,0 +1,38 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const navLinks = [
+  { href: '/blog', label: 'Blog' },
+  { href: '/sobre', label: 'Sobre' },
+  { href: '/rss.xml', label: 'RSS' },
+];
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="flex items-center justify-between py-2" style="border-bottom: 1px solid var(--color-border)">
+  <a href="/" class="font-semibold text-base hover:opacity-75 no-underline" style="color: var(--color-text)">
+    diegochav.es
+  </a>
+
+  <nav class="flex items-center gap-1">
+    {navLinks.map(({ href, label }) => {
+      const isActive = href !== '/' && pathname.startsWith(href);
+      return (
+        <a
+          href={href}
+          class:list={[
+            'px-3 py-1.5 rounded-md text-sm transition-colors no-underline',
+            isActive
+              ? 'font-medium'
+              : 'hover:opacity-75',
+          ]}
+          style={isActive ? 'color: var(--color-text)' : 'color: var(--color-muted)'}
+        >
+          {label}
+        </a>
+      );
+    })}
+    <ThemeToggle />
+  </nav>
+</header>

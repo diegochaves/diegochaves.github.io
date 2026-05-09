@@ -1,0 +1,64 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import CategoryBadge from '../components/CategoryBadge.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, date, description, category, tags } = post.data;
+
+const formattedDate = date.toLocaleDateString('pt-BR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const { remarkPluginFrontmatter } = await post.render();
+const readingTime = remarkPluginFrontmatter?.readingTime as string | undefined;
+---
+
+<BaseLayout title={title} description={description}>
+  <article>
+    <header class="mb-10">
+      <div class="mb-3">
+        <CategoryBadge category={category} />
+      </div>
+      <h1 class="text-3xl font-bold leading-tight mb-4">{title}</h1>
+      <div class="flex items-center gap-3 text-sm" style="color: var(--color-muted)">
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+        {readingTime && (
+          <>
+            <span>·</span>
+            <span>{readingTime}</span>
+          </>
+        )}
+      </div>
+    </header>
+
+    <div class="prose-blog">
+      <slot />
+    </div>
+
+    {tags && tags.length > 0 && (
+      <footer class="mt-12 pt-6" style="border-top: 1px solid var(--color-border)">
+        <div class="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span
+              class="text-xs px-2.5 py-1 rounded-full font-mono"
+              style="background-color: var(--color-code-bg); color: var(--color-muted)"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      </footer>
+    )}
+
+    <nav class="mt-10 flex justify-between text-sm" style="color: var(--color-accent)">
+      <a href="/blog" class="hover:opacity-75">← Todos os posts</a>
+    </nav>
+  </article>
+</BaseLayout>
