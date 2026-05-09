@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: #ffffff;
+    --color-text: #111111;
+    --color-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-accent: #0070f3;
+    --color-code-bg: #f5f5f5;
+  }
+
+  .dark {
+    --color-bg: #111111;
+    --color-text: #ededed;
+    --color-muted: #9ca3af;
+    --color-border: #27272a;
+    --color-accent: #3b82f6;
+    --color-code-bg: #1e1e1e;
+  }
+
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply min-h-screen transition-colors duration-200;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  a {
+    color: var(--color-accent);
+    @apply transition-opacity duration-150 hover:opacity-75;
+  }
+
+  code:not(pre code) {
+    background-color: var(--color-code-bg);
+    @apply px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  pre {
+    background-color: var(--color-code-bg) !important;
+    @apply rounded-lg p-4 overflow-x-auto text-sm;
+  }
+
+  pre code {
+    @apply font-mono;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+}
+
+@layer components {
+  .prose-blog {
+    @apply max-w-[68ch] mx-auto;
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  .prose-blog h2 {
+    @apply text-xl font-semibold mt-10 mb-4;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+  }
+
+  .prose-blog h3 {
+    @apply text-lg font-semibold mt-8 mb-3;
+  }
+
+  .prose-blog p {
+    @apply mb-6;
+  }
+
+  .prose-blog ul, .prose-blog ol {
+    @apply mb-6 pl-6;
+  }
+
+  .prose-blog li {
+    @apply mb-2;
+  }
+
+  .prose-blog ul li {
+    list-style-type: disc;
+  }
+
+  .prose-blog ol li {
+    list-style-type: decimal;
+  }
+
+  .prose-blog blockquote {
+    border-left: 3px solid var(--color-accent);
+    @apply pl-4 italic my-6;
+    color: var(--color-muted);
+  }
+
+  .prose-blog pre {
+    @apply my-6;
+  }
+
+  .prose-blog hr {
+    border-color: var(--color-border);
+    @apply my-10;
+  }
+}

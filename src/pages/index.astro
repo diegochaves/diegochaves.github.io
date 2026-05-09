@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const recentPosts = allPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
+
+const socialLinks = [
+  { href: 'https://github.com/diegochaves', label: 'GitHub' },
+  { href: 'https://twitter.com/diegochaves', label: 'Twitter/X' },
+  { href: 'mailto:eu@diegochav.es', label: 'Email' },
+];
+---
+
+<BaseLayout title="diegochav.es">
+  <!-- Hero -->
+  <section class="mb-14">
+    <h1 class="text-2xl font-bold mb-3">Olá, eu sou Diego Chaves</h1>
+    <p class="text-base leading-relaxed mb-5" style="color: var(--color-muted)">
+      Engenheiro de software. Escrevo sobre tecnologia, desenvolvimento de software,
+      carreira e curiosidades do dia a dia.
+    </p>
+    <div class="flex gap-4">
+      {socialLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class="text-sm font-medium hover:opacity-75 transition-opacity"
+          style="color: var(--color-accent)"
+          target={href.startsWith('http') ? '_blank' : undefined}
+          rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        >
+          {label}
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Recent posts -->
+  <section>
+    <h2 class="text-sm font-semibold uppercase tracking-widest mb-6" style="color: var(--color-muted)">
+      Postagens recentes
+    </h2>
+
+    {recentPosts.length === 0 ? (
+      <p class="text-sm" style="color: var(--color-muted)">Nenhum post publicado ainda.</p>
+    ) : (
+      <div style="border-top: 1px solid var(--color-border)">
+        {recentPosts.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </div>
+    )}
+
+    {allPosts.length > 5 && (
+      <a
+        href="/blog"
+        class="inline-block mt-6 text-sm font-medium hover:opacity-75 transition-opacity"
+        style="color: var(--color-accent)"
+      >
+        Ver todos os posts →
+      </a>
+    )}
+  </section>
+</BaseLayout>
