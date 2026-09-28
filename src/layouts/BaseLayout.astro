@@ -26,6 +26,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     <link rel="alternate" type="application/rss+xml" title="diegochav.es" href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
     <title>{title === 'diegochav.es' ? title : `${title} — diegochav.es`}</title>
     <meta name="description" content={description} />
