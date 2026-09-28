@@ -9,7 +9,7 @@ interface Props {
 
 const { post, compact = false } = Astro.props;
 const { title, date, description, category } = post.data;
-const slug = post.slug;
+const slug = post.id;
 
 const formattedDate = date.toLocaleDateString('pt-BR', {
   day: '2-digit',

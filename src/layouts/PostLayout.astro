@@ -16,8 +16,8 @@ const formattedDate = date.toLocaleDateString('pt-BR', {
   day: 'numeric',
 });
 
-const { remarkPluginFrontmatter } = await post.render();
-const readingTime = remarkPluginFrontmatter?.readingTime as string | undefined;
+const words = post.body?.trim().split(/\s+/).length ?? 0;
+const readingTime = words > 0 ? `${Math.max(1, Math.round(words / 200))} min de leitura` : undefined;
 ---
 
 <BaseLayout title={title} description={description}>
