@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const stack = [
+  'TypeScript', 'Python', 'React', 'Node.js',
+  'Docker', 'PostgreSQL', 'AWS', 'Git',
+];
+
+const contacts = [
+  { href: 'https://github.com/diegochaves', label: 'GitHub' },
+  { href: 'https://twitter.com/diegochaves', label: 'Twitter/X' },
+  { href: 'mailto:eu@diegochav.es', label: 'eu@diegochav.es' },
+];
+---
+
+<BaseLayout
+  title="Sobre"
+  description="Sobre Diego Chaves — engenheiro de software."
+>
+  <div class="prose-blog">
+    <h1 class="text-2xl font-bold mb-8">Sobre</h1>
+
+    <section class="mb-10">
+      <h2 class="text-lg font-semibold mb-4">Olá!</h2>
+      <p class="mb-4 leading-relaxed" style="color: var(--color-muted)">
+        Sou Diego Chaves, engenheiro de software apaixonado por tecnologia e pelo
+        processo de construir coisas que funcionam bem. Tenho experiência com
+        desenvolvimento de produtos digitais, desde a concepção até a entrega.
+      </p>
+      <p class="leading-relaxed" style="color: var(--color-muted)">
+        Neste blog escrevo sobre o que aprendo, uso e me instiga no dia a dia —
+        desde ferramentas e técnicas de desenvolvimento até reflexões sobre carreira
+        e tecnologia em geral.
+      </p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-lg font-semibold mb-4">Stack atual</h2>
+      <div class="flex flex-wrap gap-2">
+        {stack.map((tech) => (
+          <span
+            class="text-sm px-3 py-1 rounded-md font-mono"
+            style="background-color: var(--color-code-bg); color: var(--color-muted)"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-lg font-semibold mb-4">Onde me encontrar</h2>
+      <div class="flex flex-col gap-2">
+        {contacts.map(({ href, label }) => (
+          <a
+            href={href}
+            class="text-sm hover:opacity-75 transition-opacity"
+            style="color: var(--color-accent)"
+            target={href.startsWith('http') ? '_blank' : undefined}
+            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
