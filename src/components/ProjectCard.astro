@@ -1,0 +1,29 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+
+const { name, description, href, stack } = Astro.props.project;
+const external = href.startsWith('http');
+---
+
+<a
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+  class="group flex flex-col gap-2.5 rounded-[14px] border border-line bg-surface p-5 text-ink hover:border-muted hover:text-ink hover:no-underline sm:p-[22px]"
+>
+  <span class="flex items-center justify-between gap-3 text-[17px] font-semibold group-hover:text-accent">
+    {name}
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-muted" aria-hidden="true">
+      <line x1="7" y1="17" x2="17" y2="7"/>
+      <polyline points="7 7 17 7 17 17"/>
+    </svg>
+  </span>
+  <span class="text-sm leading-[1.55] text-muted">{description}</span>
+  <ul class="mt-1.5 flex flex-wrap gap-1.5 font-mono text-xs text-muted">
+    {stack.map((tech) => <li class="rounded-md border border-line px-2 py-0.5">{tech}</li>)}
+  </ul>
+</a>

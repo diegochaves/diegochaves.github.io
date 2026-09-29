@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
-import Header from '../components/Header.astro';
+import Sidebar from '../components/Sidebar.astro';
 import Footer from '../components/Footer.astro';
+import { SITE } from '../consts';
 
 interface Props {
   title: string;
@@ -9,13 +10,12 @@ interface Props {
   image?: string;
 }
 
-const {
-  title,
-  description = 'Blog pessoal de Diego Chaves — tecnologia, desenvolvimento de software e curiosidades.',
-  image,
-} = Astro.props;
+const { title, description = SITE.description, image } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Pages like a post replace the desktop sidebar; the mobile menu keeps the site navigation.
+const hasCustomSidebar = Astro.slots.has('sidebar');
 ---
 
 <!doctype html>
@@ -25,10 +25,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="alternate" type="application/rss+xml" title="diegochav.es" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <title>{title === 'diegochav.es' ? title : `${title} — diegochav.es`}</title>
+    <title>{title === SITE.title ? title : `${title} — ${SITE.title}`}</title>
     <meta name="description" content={description} />
 
     <!-- Open Graph -->
@@ -55,12 +55,74 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body>
-    <div class="flex flex-col min-h-screen max-w-2xl mx-auto px-6 py-8">
-      <Header />
-      <main class="flex-1 mt-12">
-        <slot />
-      </main>
-      <Footer />
+    <div class="min-h-screen lg:grid lg:grid-cols-[320px_minmax(0,1fr)]">
+      <aside class="lg:border-r lg:border-line lg:bg-sidebar">
+        <div class="lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto">
+          <!-- Mobile top bar -->
+          <div class="flex items-center justify-between px-5 pt-4 pb-2 sm:px-8 lg:hidden">
+            <a href="/" class="flex items-center gap-2.5 text-ink hover:text-ink hover:no-underline">
+              <span
+                aria-hidden="true"
+                class="flex size-9 items-center justify-center rounded-[10px] bg-accent-soft font-mono text-xs font-medium text-accent"
+              >
+                DC
+              </span>
+              <span class="text-base font-semibold">{SITE.author}</span>
+            </a>
+            <button
+              type="button"
+              id="menu-toggle"
+              aria-label="Abrir menu"
+              aria-expanded="false"
+              aria-controls="site-menu"
+              class="flex size-11 cursor-pointer items-center justify-center rounded-xl border border-line bg-surface text-ink"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <line x1="4" y1="8" x2="20" y2="8" />
+                <line x1="4" y1="16" x2="20" y2="16" />
+              </svg>
+            </button>
+          </div>
+
+          <div
+            id="site-menu"
+            class:list={[
+              'hidden flex-col border-b border-line px-5 pt-3 pb-5 data-open:flex sm:px-8',
+              'lg:min-h-full lg:border-b-0 lg:px-10 lg:pt-12 lg:pb-10',
+              hasCustomSidebar ? 'lg:hidden' : 'lg:flex',
+            ]}
+          >
+            <Sidebar />
+          </div>
+
+          {hasCustomSidebar && (
+            <div class="hidden min-h-full flex-col px-10 pt-12 pb-10 lg:flex">
+              <slot name="sidebar" />
+            </div>
+          )}
+        </div>
+      </aside>
+
+      <div class="flex min-h-screen flex-col px-5 sm:px-8 lg:px-20">
+        <div class="flex w-full max-w-[800px] flex-1 flex-col">
+          <main class="flex-1 pt-8 lg:pt-18">
+            <slot />
+          </main>
+          <Footer />
+        </div>
+      </div>
     </div>
+
+    <script>
+      const toggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('site-menu');
+
+      toggle?.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') !== 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+        menu?.toggleAttribute('data-open', open);
+      });
+    </script>
   </body>
 </html>

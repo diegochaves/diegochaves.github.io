@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CategoryFilter from '../../../components/CategoryFilter.astro';
+import PostLog from '../../../components/PostLog.astro';
+import { CATEGORIES, CATEGORY_INFO, type Category } from '../../../consts';
+import { getPosts } from '../../../utils/posts';
+
+export const getStaticPaths: GetStaticPaths = () =>
+  CATEGORIES.map((categoria) => ({ params: { categoria } }));
+
+const categoria = Astro.params.categoria as Category;
+const { label, description } = CATEGORY_INFO[categoria];
+const posts = (await getPosts()).filter((post) => post.data.category === categoria);
+---
+
+<BaseLayout title={label} description={`${label} — ${description}`}>
+  <p class="font-mono text-xs text-accent sm:text-[13px]">categoria</p>
+  <h1 class="mt-3 text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">{label}</h1>
+  <p class="mt-3 text-[15px] leading-relaxed text-muted">{description}</p>
+
+  <CategoryFilter current={categoria} class="mt-7 sm:mt-10" />
+
+  {posts.length === 0 ? (
+    <p class="mt-8 text-[15px] text-muted">Nenhum post nesta categoria ainda.</p>
+  ) : (
+    <PostLog posts={posts} class="mt-7 sm:mt-10" />
+  )}
+</BaseLayout>

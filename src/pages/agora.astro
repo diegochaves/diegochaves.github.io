@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AGORA } from '../data/agora';
+import { formatMonthYear } from '../utils/posts';
+---
+
+<BaseLayout title="Agora" description="O que Diego Chaves está fazendo agora.">
+  <p class="font-mono text-xs text-accent sm:text-[13px]">agora</p>
+  <h1 class="mt-3 text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">
+    O que ocupa meus dias
+  </h1>
+  <p class="mt-3 text-[15px] leading-relaxed text-muted">
+    Uma nota curta, atualizada todo mês. Última atualização: {formatMonthYear(AGORA.atualizadoEm)}.
+  </p>
+
+  <dl class="mt-10 flex max-w-[720px] flex-col">
+    {AGORA.itens.map(({ rotulo, texto }) => (
+      <div class="grid gap-1 border-b border-line py-5 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-6">
+        <dt class="font-mono text-[13px] leading-7 text-accent">{rotulo}</dt>
+        <dd class="text-lg leading-[1.6]">{texto}</dd>
+      </div>
+    ))}
+  </dl>
+</BaseLayout>
