@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { PROJECTS } from '../data/projects';
+---
+
+<BaseLayout title="Projetos" description="Projetos de Diego Chaves.">
+  <p class="font-mono text-xs text-accent sm:text-[13px]">portfólio</p>
+  <h1 class="mt-3 text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">Projetos</h1>
+
+  <div class="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
+    {PROJECTS.map((project) => <ProjectCard project={project} />)}
+  </div>
+</BaseLayout>

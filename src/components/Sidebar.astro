@@ -1,0 +1,46 @@
+---
+import { NAV_LINKS, SITE } from '../consts';
+import AgoraBlock from './AgoraBlock.astro';
+import SocialLinks from './SocialLinks.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+---
+
+<!-- Profile and "Agora" only on desktop: on mobile the top bar and the page itself carry them -->
+<div class="hidden lg:block">
+  <span
+    aria-hidden="true"
+    class="flex size-14 items-center justify-center rounded-[14px] bg-accent-soft font-mono text-lg font-medium text-accent"
+  >
+    DC
+  </span>
+  <div class="mt-5 flex flex-col gap-1">
+    <span class="text-[22px] font-semibold tracking-[-0.01em]">{SITE.author}</span>
+    <span class="text-[15px] text-muted">{SITE.role}</span>
+  </div>
+  <p class="mt-5 text-[15px] leading-relaxed text-muted">{SITE.bio}</p>
+</div>
+
+<nav aria-label="Principal" class="flex flex-col gap-0.5 text-[15px] lg:mt-8">
+  {NAV_LINKS.map(({ href, label }) => (
+    <a
+      href={href}
+      aria-current={isActive(href) ? 'page' : undefined}
+      class:list={[
+        'flex h-10 items-center rounded-lg px-3 hover:no-underline',
+        isActive(href) ? 'bg-surface font-medium text-ink hover:text-ink' : 'text-muted hover:text-ink',
+      ]}
+    >
+      {label}
+    </a>
+  ))}
+</nav>
+
+<AgoraBlock class="mt-8 hidden lg:flex" />
+
+<div class="mt-6 flex items-center justify-between gap-4 border-t border-line pt-5 lg:mt-auto lg:border-t-0 lg:pt-8">
+  <SocialLinks />
+  <ThemeToggle />
+</div>

@@ -1,0 +1,28 @@
+---
+import { SOCIAL_LINKS } from '../consts';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<ul class:list={['flex flex-wrap gap-x-3.5 gap-y-1 font-mono text-[13px]', className]}>
+  {SOCIAL_LINKS.map(({ href, label, name }) => {
+    const external = href.startsWith('http');
+    return (
+      <li>
+        <a
+          href={href}
+          aria-label={name}
+          class="text-muted hover:text-accent"
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer' : undefined}
+        >
+          {label}
+        </a>
+      </li>
+    );
+  })}
+</ul>

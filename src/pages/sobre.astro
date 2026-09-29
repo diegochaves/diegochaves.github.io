@@ -1,68 +1,63 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SOCIAL_LINKS } from '../consts';
 
 const stack = [
   'TypeScript', 'Python', 'React', 'Node.js',
   'Docker', 'PostgreSQL', 'AWS', 'Git',
 ];
 
-const contacts = [
-  { href: 'https://github.com/diegochaves', label: 'GitHub' },
-  { href: 'https://twitter.com/diegochaves', label: 'Twitter/X' },
-  { href: 'mailto:eu@diegochav.es', label: 'eu@diegochav.es' },
-];
+const contacts = SOCIAL_LINKS.filter(({ label }) => label !== 'rss');
 ---
 
 <BaseLayout
   title="Sobre"
   description="Sobre Diego Chaves — engenheiro de software."
 >
-  <div class="prose-blog">
-    <h1 class="text-2xl font-bold mb-8">Sobre</h1>
+  <p class="font-mono text-xs text-accent sm:text-[13px]">sobre</p>
+  <h1 class="mt-3 text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">Olá!</h1>
 
-    <section class="mb-10">
-      <h2 class="text-lg font-semibold mb-4">Olá!</h2>
-      <p class="mb-4 leading-relaxed" style="color: var(--color-muted)">
-        Sou Diego Chaves, engenheiro de software apaixonado por tecnologia e pelo
-        processo de construir coisas que funcionam bem. Tenho experiência com
-        desenvolvimento de produtos digitais, desde a concepção até a entrega.
-      </p>
-      <p class="leading-relaxed" style="color: var(--color-muted)">
-        Neste blog escrevo sobre o que aprendo, uso e me instiga no dia a dia —
-        desde ferramentas e técnicas de desenvolvimento até reflexões sobre carreira
-        e tecnologia em geral.
-      </p>
-    </section>
-
-    <section class="mb-10">
-      <h2 class="text-lg font-semibold mb-4">Stack atual</h2>
-      <div class="flex flex-wrap gap-2">
-        {stack.map((tech) => (
-          <span
-            class="text-sm px-3 py-1 rounded-md font-mono"
-            style="background-color: var(--color-code-bg); color: var(--color-muted)"
-          >
-            {tech}
-          </span>
-        ))}
-      </div>
-    </section>
-
-    <section>
-      <h2 class="text-lg font-semibold mb-4">Onde me encontrar</h2>
-      <div class="flex flex-col gap-2">
-        {contacts.map(({ href, label }) => (
-          <a
-            href={href}
-            class="text-sm hover:opacity-75 transition-opacity"
-            style="color: var(--color-accent)"
-            target={href.startsWith('http') ? '_blank' : undefined}
-            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-          >
-            {label}
-          </a>
-        ))}
-      </div>
-    </section>
+  <div class="prose-blog mt-8 max-w-[720px]">
+    <p>
+      Sou Diego Chaves, engenheiro de software apaixonado por tecnologia e pelo
+      processo de construir coisas que funcionam bem. Tenho experiência com
+      desenvolvimento de produtos digitais, desde a concepção até a entrega.
+    </p>
+    <p>
+      Neste blog escrevo sobre o que aprendo, uso e me instiga no dia a dia —
+      desde ferramentas e técnicas de desenvolvimento até reflexões sobre carreira
+      e tecnologia em geral.
+    </p>
   </div>
+
+  <section class="mt-12">
+    <h2 class="font-mono text-xs font-normal text-muted">stack atual</h2>
+    <ul class="mt-4 flex flex-wrap gap-2 font-mono text-[13px]">
+      {stack.map((tech) => (
+        <li class="rounded-md border border-line bg-surface px-3 py-1">{tech}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="font-mono text-xs font-normal text-muted">onde me encontrar</h2>
+    <ul class="mt-2 flex max-w-[720px] flex-col">
+      {contacts.map(({ href, label, name }) => {
+        const external = href.startsWith('http');
+        return (
+          <li class="border-b border-line">
+            <a
+              href={href}
+              class="flex items-baseline justify-between gap-4 py-3.5 text-ink hover:text-accent hover:no-underline"
+              target={external ? '_blank' : undefined}
+              rel={external ? 'noopener noreferrer' : undefined}
+            >
+              <span class="text-base">{name}</span>
+              <span class="font-mono text-xs text-muted">{label}{external ? ' ↗' : ''}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
 </BaseLayout>

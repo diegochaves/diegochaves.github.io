@@ -1,0 +1,31 @@
+---
+import { AGORA } from '../data/agora';
+import { formatShortMonthYear } from '../utils/posts';
+
+interface Props {
+  /** `sidebar` sits on the sidebar background; `card` is a bordered box in the page. */
+  variant?: 'sidebar' | 'card';
+  class?: string;
+}
+
+const { variant = 'sidebar', class: className } = Astro.props;
+---
+
+<section
+  aria-label="Agora"
+  class:list={[
+    'flex flex-col gap-3.5',
+    variant === 'sidebar' ? 'border-t border-line pt-6' : 'rounded-[14px] border border-line p-5',
+    className,
+  ]}
+>
+  <a href="/agora" class="font-mono text-xs text-muted hover:text-accent">
+    agora · {formatShortMonthYear(AGORA.atualizadoEm)}
+  </a>
+  {AGORA.itens.map(({ rotulo, texto }) => (
+    <div class="flex flex-col gap-0.5">
+      <span class="font-mono text-xs text-accent">{rotulo}</span>
+      <span class:list={['leading-normal', variant === 'sidebar' ? 'text-sm' : 'text-[15px]']}>{texto}</span>
+    </div>
+  ))}
+</section>

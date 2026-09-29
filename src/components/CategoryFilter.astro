@@ -1,0 +1,39 @@
+---
+import { CATEGORIES, type Category } from '../consts';
+
+interface Props {
+  current: 'tudo' | Category;
+  class?: string;
+}
+
+const { current, class: className } = Astro.props;
+
+const options = [
+  { value: 'tudo', href: '/blog/' },
+  ...CATEGORIES.map((category) => ({ value: category, href: `/blog/categoria/${category}/` })),
+];
+
+const normalize = (path: string) => path.replace(/\/?$/, '/');
+const pathname = normalize(Astro.url.pathname);
+---
+
+<nav aria-label="Categorias" class:list={['-mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0', className]}>
+  <ul class="flex gap-2 font-mono text-[13px] sm:flex-wrap">
+    {options.map(({ value, href }) => (
+      <li class="shrink-0">
+        <a
+          href={href}
+          aria-current={normalize(href) === pathname ? 'page' : undefined}
+          class:list={[
+            'flex h-9 items-center rounded-full border px-4 hover:no-underline',
+            value === current
+              ? 'border-accent bg-accent-soft text-ink hover:text-ink'
+              : 'border-line text-muted hover:border-muted hover:text-ink',
+          ]}
+        >
+          {value}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

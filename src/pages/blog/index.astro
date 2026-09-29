@@ -1,57 +1,27 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostCard from '../../components/PostCard.astro';
-import { getCollection } from 'astro:content';
+import CategoryFilter from '../../components/CategoryFilter.astro';
+import PostLog from '../../components/PostLog.astro';
+import { getPosts } from '../../utils/posts';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const sorted = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-// Group by year
-const byYear = sorted.reduce<Record<number, typeof sorted>>((acc, post) => {
-  const year = post.data.date.getFullYear();
-  if (!acc[year]) acc[year] = [];
-  acc[year].push(post);
-  return acc;
-}, {});
-
-const years = Object.keys(byYear)
-  .map(Number)
-  .sort((a, b) => b - a);
-
-const categories = ['dev', 'carreira', 'curiosidades', 'pessoal'] as const;
-type Category = typeof categories[number];
-
-const categoryLabels: Record<Category, string> = {
-  dev: 'Dev',
-  carreira: 'Carreira',
-  curiosidades: 'Curiosidades',
-  pessoal: 'Pessoal',
-};
+const posts = await getPosts();
 ---
 
 <BaseLayout
   title="Blog"
-  description="Todos os posts de Diego Chaves sobre tecnologia, desenvolvimento e mais."
+  description="Todos os posts de Diego Chaves sobre desenvolvimento, carreira, curiosidades e rotina."
 >
-  <div class="mb-10">
-    <h1 class="text-2xl font-bold mb-2">Blog</h1>
-    <p class="text-sm" style="color: var(--color-muted)">{sorted.length} post{sorted.length !== 1 ? 's' : ''}</p>
-  </div>
+  <p class="font-mono text-xs text-accent sm:text-[13px]">arquivo</p>
+  <h1 class="mt-3 text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">
+    Todos os escritos
+  </h1>
+  <p class="mt-3 text-[15px] text-muted">{posts.length} post{posts.length !== 1 ? 's' : ''}</p>
 
-  {years.map((year) => (
-    <section class="mb-10">
-      <h2 class="text-sm font-semibold uppercase tracking-widest mb-4" style="color: var(--color-muted)">
-        {year}
-      </h2>
-      <div style="border-top: 1px solid var(--color-border)">
-        {byYear[year].map((post) => (
-          <PostCard post={post} />
-        ))}
-      </div>
-    </section>
-  ))}
+  <CategoryFilter current="tudo" class="mt-7 sm:mt-10" />
 
-  {sorted.length === 0 && (
-    <p class="text-sm" style="color: var(--color-muted)">Nenhum post publicado ainda.</p>
+  {posts.length === 0 ? (
+    <p class="mt-8 text-[15px] text-muted">Nenhum post publicado ainda.</p>
+  ) : (
+    <PostLog posts={posts} class="mt-7 sm:mt-10" />
   )}
 </BaseLayout>

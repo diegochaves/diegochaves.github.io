@@ -1,29 +1,14 @@
 ---
-const year = new Date().getFullYear();
+import { SITE } from '../consts';
+import SocialLinks from './SocialLinks.astro';
 
-const links = [
-  { href: 'https://github.com/diegochaves', label: 'GitHub' },
-  { href: 'https://twitter.com/diegochaves', label: 'Twitter/X' },
-  { href: 'mailto:eu@diegochav.es', label: 'Email' },
-  { href: '/rss.xml', label: 'RSS' },
-];
+const year = new Date().getFullYear();
 ---
 
-<footer class="mt-16 py-8 text-sm" style="border-top: 1px solid var(--color-border); color: var(--color-muted)">
-  <div class="flex flex-wrap items-center justify-between gap-4">
-    <span>© {year} Diego Chaves</span>
-    <div class="flex gap-4">
-      {links.map(({ href, label }) => (
-        <a
-          href={href}
-          class="hover:opacity-75 no-underline transition-opacity"
-          style="color: var(--color-muted)"
-          target={href.startsWith('http') ? '_blank' : undefined}
-          rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-        >
-          {label}
-        </a>
-      ))}
-    </div>
+<footer class="mt-16 flex flex-col gap-3 border-t border-line pt-6 pb-10 font-mono text-xs text-muted sm:mt-20 sm:pb-12">
+  <SocialLinks class="lg:hidden" />
+  <div class="flex flex-col gap-1 sm:flex-row sm:justify-between">
+    <span>© {year} {SITE.author}</span>
+    <span>feito com Astro · hospedado no GitHub Pages</span>
   </div>
 </footer>

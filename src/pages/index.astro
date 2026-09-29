@@ -1,67 +1,44 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
-import { getCollection } from 'astro:content';
+import AgoraBlock from '../components/AgoraBlock.astro';
+import CategoryFilter from '../components/CategoryFilter.astro';
+import PostLog from '../components/PostLog.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { SITE } from '../consts';
+import { PROJECTS } from '../data/projects';
+import { getPosts } from '../utils/posts';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const recentPosts = allPosts
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 5);
-
-const socialLinks = [
-  { href: 'https://github.com/diegochaves', label: 'GitHub' },
-  { href: 'https://twitter.com/diegochaves', label: 'Twitter/X' },
-  { href: 'mailto:eu@diegochav.es', label: 'Email' },
-];
+const recentPosts = (await getPosts()).slice(0, 8);
+const featuredProjects = PROJECTS.filter((project) => project.featured).slice(0, 3);
 ---
 
-<BaseLayout title="diegochav.es">
-  <!-- Hero -->
-  <section class="mb-14">
-    <h1 class="text-2xl font-bold mb-3">Olá, eu sou Diego Chaves</h1>
-    <p class="text-base leading-relaxed mb-5" style="color: var(--color-muted)">
-      Engenheiro de software. Escrevo sobre tecnologia, desenvolvimento de software,
-      carreira e curiosidades do dia a dia.
-    </p>
-    <div class="flex gap-4">
-      {socialLinks.map(({ href, label }) => (
-        <a
-          href={href}
-          class="text-sm font-medium hover:opacity-75 transition-opacity"
-          style="color: var(--color-accent)"
-          target={href.startsWith('http') ? '_blank' : undefined}
-          rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-        >
-          {label}
-        </a>
-      ))}
-    </div>
-  </section>
+<BaseLayout title={SITE.title}>
+  <p class="font-mono text-xs text-accent sm:text-[13px]">caderno de bordo</p>
+  <h1 class="mt-3 max-w-[720px] text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">
+    Anotações sobre construir software — e sobre o resto do dia.
+  </h1>
+  <p class="mt-3 text-[15px] leading-relaxed text-muted lg:hidden">{SITE.role}. {SITE.bio}</p>
 
-  <!-- Recent posts -->
-  <section>
-    <h2 class="text-sm font-semibold uppercase tracking-widest mb-6" style="color: var(--color-muted)">
-      Postagens recentes
-    </h2>
+  <CategoryFilter current="tudo" class="mt-7 sm:mt-10" />
 
-    {recentPosts.length === 0 ? (
-      <p class="text-sm" style="color: var(--color-muted)">Nenhum post publicado ainda.</p>
-    ) : (
-      <div style="border-top: 1px solid var(--color-border)">
-        {recentPosts.map((post) => (
-          <PostCard post={post} />
-        ))}
+  {recentPosts.length === 0 ? (
+    <p class="mt-8 text-[15px] text-muted">Nenhum post publicado ainda.</p>
+  ) : (
+    <PostLog posts={recentPosts} class="mt-7 sm:mt-10" />
+  )}
+  <a href="/blog/" class="mt-6 inline-block text-[15px]">Ver o arquivo completo →</a>
+
+  {featuredProjects.length > 0 && (
+    <section class="mt-12 flex flex-col gap-4 sm:mt-18 sm:gap-6">
+      <div class="flex items-baseline justify-between">
+        <h2 class="text-xl font-semibold tracking-[-0.01em] sm:text-[22px]">Projetos</h2>
+        <a href="/projetos" class="text-[15px]">Ver todos →</a>
       </div>
-    )}
+      <div class="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
+        {featuredProjects.map((project) => <ProjectCard project={project} />)}
+      </div>
+    </section>
+  )}
 
-    {allPosts.length > 5 && (
-      <a
-        href="/blog"
-        class="inline-block mt-6 text-sm font-medium hover:opacity-75 transition-opacity"
-        style="color: var(--color-accent)"
-      >
-        Ver todos os posts →
-      </a>
-    )}
-  </section>
+  <AgoraBlock variant="card" class="mt-12 lg:hidden" />
 </BaseLayout>
