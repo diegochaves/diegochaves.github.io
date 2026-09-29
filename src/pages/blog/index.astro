@@ -2,13 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
+import { yearOf } from '../../utils/date';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const sorted = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 // Group by year
 const byYear = sorted.reduce<Record<number, typeof sorted>>((acc, post) => {
-  const year = post.data.date.getFullYear();
+  const year = yearOf(post.data.date);
   if (!acc[year]) acc[year] = [];
   acc[year].push(post);
   return acc;

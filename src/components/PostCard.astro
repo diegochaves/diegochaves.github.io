@@ -1,6 +1,7 @@
 ---
 import CategoryBadge from './CategoryBadge.astro';
 import type { CollectionEntry } from 'astro:content';
+import { TIME_ZONE } from '../utils/date';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -15,6 +16,7 @@ const formattedDate = date.toLocaleDateString('pt-BR', {
   day: '2-digit',
   month: 'short',
   year: compact ? undefined : 'numeric',
+  timeZone: TIME_ZONE,
 });
 ---
 
