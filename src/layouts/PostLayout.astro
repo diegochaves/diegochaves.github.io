@@ -163,6 +163,8 @@ const related = [
     copy.className = 'code-block-copy';
     copy.textContent = 'copiar';
     copy.addEventListener('click', async () => {
+      // Created after load, so count.js's data-goatcounter-click binding may miss it: count directly.
+      window.goatcounter?.count?.({ path: `copiar-codigo${location.pathname}`, title: document.title, event: true });
       await navigator.clipboard.writeText(pre.innerText);
       copy.textContent = 'copiado';
       setTimeout(() => (copy.textContent = 'copiar'), 1500);
