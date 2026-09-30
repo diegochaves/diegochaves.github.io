@@ -1,10 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
 import ProjectCard from '../components/ProjectCard.astro';
 import { PROJECTS } from '../data/projects';
 ---
 
-<BaseLayout title="Projetos" description="Projetos de Diego Chaves.">
+<BaseLayout title="Projetos" description={`Projetos de ${SITE.author}.`}>
   <p class="font-mono text-xs text-accent sm:text-[13px]">portfólio</p>
   <h1 class="mt-3 text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">Projetos</h1>
 

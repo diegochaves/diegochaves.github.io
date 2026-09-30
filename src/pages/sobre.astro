@@ -1,39 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SOCIAL_LINKS, socialEvent } from '../consts';
-
-const stack = [
-  'TypeScript', 'Python', 'React', 'Node.js',
-  'Docker', 'PostgreSQL', 'AWS', 'Git',
-];
+import { ABOUT, SOCIAL_LINKS, socialEvent } from '../consts';
 
 const contacts = SOCIAL_LINKS.filter(({ label }) => label !== 'rss');
 ---
 
-<BaseLayout
-  title="Sobre"
-  description="Sobre Diego Chaves — engenheiro de software."
->
+<BaseLayout title="Sobre" description={ABOUT.description}>
   <p class="font-mono text-xs text-accent sm:text-[13px]">sobre</p>
-  <h1 class="mt-3 text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">Olá!</h1>
+  <h1 class="mt-3 text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">{ABOUT.title}</h1>
 
   <div class="prose-blog mt-8 max-w-[720px]">
-    <p>
-      Sou Diego Chaves, engenheiro de software apaixonado por tecnologia e pelo
-      processo de construir coisas que funcionam bem. Tenho experiência com
-      desenvolvimento de produtos digitais, desde a concepção até a entrega.
-    </p>
-    <p>
-      Neste blog escrevo sobre o que aprendo, uso e me instiga no dia a dia —
-      desde ferramentas e técnicas de desenvolvimento até reflexões sobre carreira
-      e tecnologia em geral.
-    </p>
+    {ABOUT.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
   </div>
 
   <section class="mt-12">
     <h2 class="font-mono text-xs font-normal text-muted">stack atual</h2>
     <ul class="mt-4 flex flex-wrap gap-2 font-mono text-[13px]">
-      {stack.map((tech) => (
+      {ABOUT.stack.map((tech) => (
         <li class="rounded-md border border-line bg-surface px-3 py-1">{tech}</li>
       ))}
     </ul>

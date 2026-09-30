@@ -23,16 +23,61 @@ export const SITE = {
   role: 'Engenheiro de Computação',
   description: 'Portfólio e blog de Diego Chaves — …',
   bio: 'Escrevo sobre o que construo, …',
+  initials: 'DC',
+  twitter: '@diegochaves',
 };
 ```
 
 | Campo | Onde aparece |
 |---|---|
 | `title` | Título da aba (`Post — diegochav.es`), título da página inicial, nome do feed RSS |
-| `author` | Barra lateral, barra do topo no celular, barra lateral dos posts, rodapé (`© 2026 Diego Chaves`) |
+| `author` | Barra lateral, barra do topo no celular, barra lateral dos posts, rodapé (`© 2026 Diego Chaves`) e nas descrições das páginas Blog, Projetos e Agora |
 | `role` | Abaixo do nome na barra lateral; na página inicial, no celular |
 | `bio` | Barra lateral; na página inicial, no celular |
 | `description` | Descrição padrão das páginas para buscadores e redes sociais (quando a página não define outra) e descrição do feed RSS |
+| `initials` | Texto do avatar: barra lateral, barra do topo no celular e barra lateral dos posts |
+| `twitter` | Usuário do X/Twitter nos cartões de pré-visualização quando um link do site é compartilhado |
+
+### `HOME`
+
+O cabeçalho da página inicial:
+
+```ts
+export const HOME = {
+  eyebrow: 'caderno de bordo',
+  title: 'Anotações sobre construir software — e sobre o resto do dia.',
+};
+```
+
+| Campo | Onde aparece |
+|---|---|
+| `eyebrow` | Texto pequeno, em destaque, acima do título |
+| `title` | Título principal da página inicial |
+
+### `ABOUT`
+
+O conteúdo da página [Sobre](#sobre-sobre):
+
+```ts
+export const ABOUT = {
+  description: 'Sobre Diego Chaves — engenheiro de software.',
+  title: 'Olá!',
+  paragraphs: [
+    'Sou Diego Chaves, engenheiro de software …',
+    'Neste blog escrevo sobre …',
+  ],
+  stack: ['TypeScript', 'Python', 'React', 'Node.js', 'Docker', 'PostgreSQL', 'AWS', 'Git'],
+};
+```
+
+| Campo | Onde aparece |
+|---|---|
+| `description` | Descrição da página para buscadores e redes sociais |
+| `title` | Título da página |
+| `paragraphs` | Texto de apresentação: cada item vira um parágrafo, na ordem da lista |
+| `stack` | Etiquetas da seção "stack atual", na ordem da lista |
+
+Os parágrafos são texto simples: negrito, itálico e links não funcionam aqui. Se precisar de um link, edite o texto direto em [`src/pages/sobre.astro`](../src/pages/sobre.astro).
 
 ### `NAV_LINKS`
 
@@ -96,7 +141,7 @@ Arquivo: [`src/pages/index.astro`](../src/pages/index.astro).
 
 | Parte | De onde vem |
 |---|---|
-| "caderno de bordo" e o título *Anotações sobre construir software…* | Texto fixo no próprio `index.astro` |
+| "caderno de bordo" e o título *Anotações sobre construir software…* | [`HOME`](#home) |
 | Cargo e bio (só no celular) | `SITE.role` e `SITE.bio` |
 | Lista de posts | Os 8 posts mais recentes, agrupados por mês |
 | Projetos | Até 3 projetos com `featured: true` em [`src/data/projects.ts`](../src/data/projects.ts). A seção some se nenhum tiver `featured` |
@@ -104,21 +149,13 @@ Arquivo: [`src/pages/index.astro`](../src/pages/index.astro).
 
 ### Sobre (`/sobre`)
 
-Arquivo: [`src/pages/sobre.astro`](../src/pages/sobre.astro). O texto desta página fica no próprio arquivo, e não no `consts.ts`:
+Arquivo: [`src/pages/sobre.astro`](../src/pages/sobre.astro).
 
-- **Apresentação:** os parágrafos `<p>…</p>` dentro de `<div class="prose-blog …">`. Edite o texto e, para um parágrafo novo, copie um `<p>` existente.
-- **Stack atual:** a lista no topo do arquivo:
-
-  ```ts
-  const stack = [
-    'TypeScript', 'Python', 'React', 'Node.js',
-    'Docker', 'PostgreSQL', 'AWS', 'Git',
-  ];
-  ```
-
-- **Onde me encontrar:** vem de `SOCIAL_LINKS`; edite lá.
-- **Privacidade:** o texto sobre o GoatCounter. Mantenha-o se continuar usando estatísticas.
-- **Descrição para buscadores:** o atributo `description` do `<BaseLayout>`, no início do arquivo.
+| Parte | De onde vem |
+|---|---|
+| Título, parágrafos de apresentação, stack e descrição para buscadores | [`ABOUT`](#about) |
+| Onde me encontrar | [`SOCIAL_LINKS`](#social_links), menos o RSS |
+| Privacidade | Texto no próprio `sobre.astro`. Mantenha-o enquanto usar o GoatCounter |
 
 ### Agora (`/agora`)
 
@@ -216,9 +253,10 @@ Para **renomear ou remover** uma categoria, altere também o `category:` dos pos
    ```astro
    ---
    import BaseLayout from '../layouts/BaseLayout.astro';
+   import { SITE } from '../consts';
    ---
 
-   <BaseLayout title="Palestras" description="Palestras de Diego Chaves.">
+   <BaseLayout title="Palestras" description={`Palestras de ${SITE.author}.`}>
      <p class="font-mono text-xs text-accent sm:text-[13px]">palestras</p>
      <h1 class="mt-3 text-[28px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[40px] sm:leading-[1.15]">Palestras</h1>
      <div class="prose-blog mt-8 max-w-[720px]">
@@ -241,14 +279,11 @@ A ordem da lista é a ordem de exibição. O link passa a aparecer na barra late
 
 ## O que fica fora do `consts.ts`
 
-Alguns dados pessoais estão direto nos componentes. Para trocá-los, edite os arquivos abaixo:
+Todos os dados pessoais (nome, iniciais, cargo, bio, redes sociais, textos da página inicial e da Sobre) ficam no `consts.ts`, e o conteúdo de Agora e Projetos fica em `src/data/`. O que sobra fora é a aparência e a configuração do site:
 
 | O quê | Onde |
 |---|---|
-| Iniciais **DC** do avatar | [`Sidebar.astro`](../src/components/Sidebar.astro) (barra lateral), [`BaseLayout.astro`](../src/layouts/BaseLayout.astro) (topo no celular), [`PostLayout.astro`](../src/layouts/PostLayout.astro) (barra lateral dos posts) |
-| Usuário do X/Twitter para os cartões de compartilhamento (`@diegochaves`) | `twitter:site` e `twitter:creator` em [`BaseLayout.astro`](../src/layouts/BaseLayout.astro) |
-| Título da página inicial | [`src/pages/index.astro`](../src/pages/index.astro) |
-| Texto e stack da página Sobre | [`src/pages/sobre.astro`](../src/pages/sobre.astro) |
+| Texto de privacidade da página Sobre | [`src/pages/sobre.astro`](../src/pages/sobre.astro) |
 | Rodapé ("feito com Astro · hospedado no GitHub Pages") | [`Footer.astro`](../src/components/Footer.astro) |
 | Ícone da aba | [`public/favicon.svg`](../public/favicon.svg) |
 | Cores (claro e escuro) e fontes (Geist, Geist Mono) | Variáveis no início de [`src/styles/global.css`](../src/styles/global.css) |
