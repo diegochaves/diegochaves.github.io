@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SOCIAL_LINKS } from '../consts';
+import { SOCIAL_LINKS, socialEvent } from '../consts';
 
 const stack = [
   'TypeScript', 'Python', 'React', 'Node.js',
@@ -48,6 +48,8 @@ const contacts = SOCIAL_LINKS.filter(({ label }) => label !== 'rss');
           <li class="border-b border-line">
             <a
               href={href}
+              data-goatcounter-click={socialEvent(label)}
+              data-goatcounter-title={name}
               class="flex items-baseline justify-between gap-4 py-3.5 text-ink hover:text-accent hover:no-underline"
               target={external ? '_blank' : undefined}
               rel={external ? 'noopener noreferrer' : undefined}
@@ -59,5 +61,14 @@ const contacts = SOCIAL_LINKS.filter(({ label }) => label !== 'rss');
         );
       })}
     </ul>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="font-mono text-xs font-normal text-muted">privacidade</h2>
+    <p class="mt-3 max-w-[720px] text-[15px] leading-relaxed text-muted">
+      Para saber quais posts são lidos, este site usa o
+      <a href="https://www.goatcounter.com" target="_blank" rel="noopener noreferrer">GoatCounter</a>:
+      visitas e alguns cliques são contados de forma agregada, sem cookies e sem identificar quem você é.
+    </p>
   </section>
 </BaseLayout>

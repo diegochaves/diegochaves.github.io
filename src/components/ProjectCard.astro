@@ -13,6 +13,8 @@ const external = href.startsWith('http');
   href={href}
   target={external ? '_blank' : undefined}
   rel={external ? 'noopener noreferrer' : undefined}
+  data-goatcounter-click={`projeto/${name}`}
+  data-goatcounter-title={name}
   class="group flex flex-col gap-2.5 rounded-[14px] border border-line bg-surface p-5 text-ink hover:border-muted hover:text-ink hover:no-underline sm:p-[22px]"
 >
   <span class="flex items-center justify-between gap-3 text-[17px] font-semibold group-hover:text-accent">

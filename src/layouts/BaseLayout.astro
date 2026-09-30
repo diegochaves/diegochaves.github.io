@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Sidebar from '../components/Sidebar.astro';
 import Footer from '../components/Footer.astro';
-import { SITE } from '../consts';
+import { GOATCOUNTER_ENDPOINT, SITE } from '../consts';
 
 interface Props {
   title: string;
@@ -42,6 +42,11 @@ const hasCustomSidebar = Astro.slots.has('sidebar');
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@diegochaves" />
     <meta name="twitter:creator" content="@diegochaves" />
+
+    <!-- Analytics: GoatCounter, no cookies. Production builds only. -->
+    {import.meta.env.PROD && (
+      <script is:inline async data-goatcounter={GOATCOUNTER_ENDPOINT} src="https://gc.zgo.at/count.js"></script>
+    )}
 
     <!-- Dark mode: run before paint to avoid flash -->
     <script is:inline>

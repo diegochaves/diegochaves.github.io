@@ -1,5 +1,5 @@
 ---
-import { SOCIAL_LINKS } from '../consts';
+import { SOCIAL_LINKS, socialEvent } from '../consts';
 
 interface Props {
   class?: string;
@@ -16,6 +16,8 @@ const { class: className } = Astro.props;
         <a
           href={href}
           aria-label={name}
+          data-goatcounter-click={socialEvent(label)}
+          data-goatcounter-title={name}
           class="text-muted hover:text-accent"
           target={external ? '_blank' : undefined}
           rel={external ? 'noopener noreferrer' : undefined}

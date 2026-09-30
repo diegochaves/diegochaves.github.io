@@ -25,6 +25,12 @@ export const SOCIAL_LINKS = [
   { href: '/rss.xml', label: 'rss', name: 'RSS' },
 ];
 
+// GoatCounter (https://www.goatcounter.com): cookieless, aggregated page views and click events.
+export const GOATCOUNTER_ENDPOINT = 'https://diegochaves.goatcounter.com/count';
+
+/** GoatCounter event name for a SOCIAL_LINKS entry. */
+export const socialEvent = (label: string) => (label === 'rss' ? 'rss' : `social/${label}`);
+
 export const CATEGORIES = ['dev', 'carreira', 'curiosidades', 'pessoal'] as const;
 export type Category = (typeof CATEGORIES)[number];
 
