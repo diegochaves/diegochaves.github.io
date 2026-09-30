@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { TIME_ZONE } from '../consts';
 
 export type Post = CollectionEntry<'blog'>;
 
@@ -12,10 +13,13 @@ export function readingMinutes(body = ''): number {
   return Math.max(1, Math.round(words / 200));
 }
 
-// Front matter dates are parsed as UTC midnight, so format them in UTC too.
+// Post dates come from Brasília-time filename timestamps (see content.config.ts),
+// so format them, and take their year and month, in that zone.
 function format(date: Date, options: Intl.DateTimeFormatOptions): string {
-  return date.toLocaleDateString('pt-BR', { timeZone: 'UTC', ...options });
+  return date.toLocaleDateString('pt-BR', { timeZone: TIME_ZONE, ...options });
 }
+
+const year = (date: Date) => format(date, { year: 'numeric' });
 
 /** 28.09 */
 export const formatDayMonth = (date: Date) =>
@@ -27,18 +31,18 @@ export const formatDate = (date: Date) =>
 
 /** setembro 2026 */
 export const formatMonthYear = (date: Date) =>
-  `${format(date, { month: 'long' })} ${date.getUTCFullYear()}`;
+  `${format(date, { month: 'long' })} ${year(date)}`;
 
 /** set 2026 */
 export const formatShortMonthYear = (date: Date) =>
-  `${format(date, { month: 'short' }).replace('.', '')} ${date.getUTCFullYear()}`;
+  `${format(date, { month: 'short' }).replace('.', '')} ${year(date)}`;
 
 /** Groups posts (already sorted newest first) into consecutive months. */
 export function groupByMonth(posts: Post[]) {
   const groups: { key: string; label: string; posts: Post[] }[] = [];
   for (const post of posts) {
     const date = post.data.date;
-    const key = `${date.getUTCFullYear()}-${date.getUTCMonth()}`;
+    const key = format(date, { year: 'numeric', month: '2-digit' });
     let group = groups.at(-1);
     if (group?.key !== key) {
       group = { key, label: formatMonthYear(date), posts: [] };

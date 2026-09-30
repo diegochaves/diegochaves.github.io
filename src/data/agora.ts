@@ -2,7 +2,8 @@
 // Shown in the sidebar, on the home page (mobile) and on /agora.
 // TODO: replace the bracketed placeholders before publishing.
 export const AGORA = {
-  atualizadoEm: new Date('2026-09-01'),
+  // Noon in Brasília, so the month shown doesn't depend on the time zone.
+  atualizadoEm: new Date('2026-09-01T12:00:00-03:00'),
   itens: [
     { rotulo: 'construindo', texto: '[projeto atual]' },
     { rotulo: 'lendo', texto: '[livro ou artigo]' },
