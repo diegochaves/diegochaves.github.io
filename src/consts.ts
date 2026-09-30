@@ -7,6 +7,10 @@ export const SITE = {
   bio: 'Escrevo sobre o que construo, os problemas que deram trabalho — e como foram resolvidos — e um pouco da rotina.',
 };
 
+// Brasília time (UTC-3, no DST). Post timestamps are written in it and all dates
+// are shown in it, since the site is built on UTC machines.
+export const TIME_ZONE = 'America/Sao_Paulo';
+
 export const NAV_LINKS = [
   { href: '/', label: 'Início' },
   { href: '/blog', label: 'Blog' },
