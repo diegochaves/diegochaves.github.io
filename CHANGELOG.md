@@ -14,7 +14,11 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). O
   - `ABOUT` para o título, os parágrafos, a stack e a descrição da página Sobre.
 - As descrições das páginas Blog, Projetos e Agora passam a usar `SITE.author`.
 
-O HTML gerado é idêntico ao de antes; só muda onde os dados são editados.
+Fora a correção abaixo, o HTML gerado é idêntico ao de antes; só muda onde os dados são editados.
+
+### Corrigido
+
+- Texto de privacidade da página Sobre: faltava o espaço antes de "GoatCounter" (o site mostrava "usa oGoatCounter") e um ponto final depois dele.
 
 ## 2026-09-30
 
