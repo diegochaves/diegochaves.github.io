@@ -6,12 +6,19 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). O
 
 ## Não publicado
 
-### Documentação
+### Alterado
 
-- Novo `README.md` com visão geral, stack, estrutura de pastas e publicação.
-- Guia de posts em [`docs/publicar-posts.md`](docs/publicar-posts.md): nome do arquivo, frontmatter, `resumo`, rascunhos, imagens e modelo.
-- Guia de edição em [`docs/editar-o-site.md`](docs/editar-o-site.md): cada campo de `src/consts.ts`, as páginas Início, Sobre, Agora e Projetos, receitas (nova categoria, item de menu, rede social) e GoatCounter.
-- Este `CHANGELOG.md`.
+- **Todos os dados pessoais passam para `src/consts.ts`.** Antes, vários ficavam fixos nos componentes:
+  - `SITE.initials` (iniciais do avatar, antes repetidas em 3 arquivos) e `SITE.twitter` (usuário nos cartões de compartilhamento);
+  - `HOME` para o cabeçalho da página inicial;
+  - `ABOUT` para o título, os parágrafos, a stack e a descrição da página Sobre.
+- As descrições das páginas Blog, Projetos e Agora passam a usar `SITE.author`.
+
+Fora a correção abaixo, o HTML gerado é idêntico ao de antes; só muda onde os dados são editados.
+
+### Corrigido
+
+- Texto de privacidade da página Sobre: faltava o espaço antes de "GoatCounter" (o site mostrava "usa oGoatCounter") e um ponto final depois dele.
 
 ## 2026-09-30
 
@@ -30,6 +37,14 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/). O
 ### Corrigido
 
 - Formatação do texto de privacidade na página Sobre (`6819fc1`).
+
+### Documentação
+
+- Documentação do projeto ([#5], `4ac692b`):
+  - novo `README.md` com visão geral, stack, estrutura de pastas e publicação;
+  - guia de posts em [`docs/publicar-posts.md`](docs/publicar-posts.md): nome do arquivo, frontmatter, `resumo`, rascunhos, imagens e modelo;
+  - guia de edição em [`docs/editar-o-site.md`](docs/editar-o-site.md): cada campo de `src/consts.ts`, as páginas Início, Sobre, Agora e Projetos, receitas (nova categoria, item de menu, rede social) e GoatCounter;
+  - este `CHANGELOG.md`.
 
 ## 2026-09-29
 
@@ -102,3 +117,4 @@ O repositório começou como um fork do [HubPress](https://github.com/HubPress/h
 [#2]: https://github.com/diegochaves/diegochaves.github.io/pull/2
 [#3]: https://github.com/diegochaves/diegochaves.github.io/pull/3
 [#4]: https://github.com/diegochaves/diegochaves.github.io/pull/4
+[#5]: https://github.com/diegochaves/diegochaves.github.io/pull/5

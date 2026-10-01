@@ -35,7 +35,7 @@ npm run preview   # serve o dist/ para conferir o build
 
 ```
 src/
-├── consts.ts             ← dados do site: nome, cargo, bio, menu, redes sociais, categorias
+├── consts.ts             ← dados do site: nome, cargo, bio, iniciais, menu, redes sociais, textos do Início e da Sobre, categorias
 ├── content.config.ts     ← regras dos posts: nome do arquivo e campos do frontmatter
 ├── content/blog/         ← os posts (YYYY-MM-DD-HHmm-slug.md)
 ├── data/
@@ -43,7 +43,7 @@ src/
 │   └── projects.ts       ← lista de projetos (/projetos)
 ├── pages/                ← uma página por arquivo; o caminho vira a URL
 │   ├── index.astro       ← início
-│   ├── sobre.astro       ← /sobre (texto e stack ficam aqui)
+│   ├── sobre.astro       ← /sobre (textos em consts.ts)
 │   ├── agora.astro       ← /agora
 │   ├── projetos.astro    ← /projetos
 │   ├── blog/             ← /blog, /blog/<slug>/ e /blog/categoria/<categoria>/

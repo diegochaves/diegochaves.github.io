@@ -40,8 +40,8 @@ const hasCustomSidebar = Astro.slots.has('sidebar');
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@diegochaves" />
-    <meta name="twitter:creator" content="@diegochaves" />
+    <meta name="twitter:site" content={SITE.twitter} />
+    <meta name="twitter:creator" content={SITE.twitter} />
 
     <!-- Analytics: GoatCounter, no cookies. Production builds only. -->
     {import.meta.env.PROD && (
@@ -70,7 +70,7 @@ const hasCustomSidebar = Astro.slots.has('sidebar');
                 aria-hidden="true"
                 class="flex size-9 items-center justify-center rounded-[10px] bg-accent-soft font-mono text-xs font-medium text-accent"
               >
-                DC
+                {SITE.initials}
               </span>
               <span class="text-base font-semibold">{SITE.author}</span>
             </a>

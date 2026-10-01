@@ -5,6 +5,27 @@ export const SITE = {
   description:
     'Portfólio e blog de Diego Chaves — o que construo, os problemas que deram trabalho e um pouco da rotina.',
   bio: 'Escrevo sobre o que construo, os problemas que deram trabalho — e como foram resolvidos — e um pouco da rotina.',
+  /** Avatar text: sidebar, mobile top bar and post sidebar. */
+  initials: 'DC',
+  /** X (Twitter) handle for link previews. */
+  twitter: '@diegochaves',
+};
+
+/** Home page heading. */
+export const HOME = {
+  eyebrow: 'caderno de bordo',
+  title: 'Anotações sobre construir software — e sobre o resto do dia.',
+};
+
+/** About page (/sobre). Each paragraph is plain text; a link needs editing sobre.astro. */
+export const ABOUT = {
+  description: 'Sobre Diego Chaves — engenheiro de software.',
+  title: 'Olá!',
+  paragraphs: [
+    'Sou Diego Chaves, engenheiro de software apaixonado por tecnologia e pelo processo de construir coisas que funcionam bem. Tenho experiência com desenvolvimento de produtos digitais, desde a concepção até a entrega.',
+    'Neste blog escrevo sobre o que aprendo, uso e me instiga no dia a dia — desde ferramentas e técnicas de desenvolvimento até reflexões sobre carreira e tecnologia em geral.',
+  ],
+  stack: ['TypeScript', 'Python', 'React', 'Node.js', 'Docker', 'PostgreSQL', 'AWS', 'Git'],
 };
 
 // Brasília time (UTC-3, no DST). Post timestamps are written in it and all dates
